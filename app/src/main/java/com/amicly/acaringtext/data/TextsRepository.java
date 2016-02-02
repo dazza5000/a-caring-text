@@ -23,7 +23,7 @@ public interface TextsRepository {
 
     }
 
-    void getTexts(@NonNull LoadTextCallback callback);
+    void getTexts(@NonNull LoadTextsCallback callback);
 
     void getText(@NonNull String textId, @NonNull LoadTextCallback callback);
 

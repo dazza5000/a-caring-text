@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -141,9 +140,9 @@ public class TextsFragment extends Fragment implements TextsContract.View {
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
             Text text = mTexts.get(position);
 
-            viewHolder.dateTime.setText(text.getDateTime());
-            viewHolder.contact.setText(text.getContact());
-            viewHolder.message.setText(text.getMessage());
+            viewHolder.dateTime.setText(text.getmDateTime());
+            viewHolder.contact.setText(text.getmContact());
+            viewHolder.message.setText(text.getmMessage());
         }
 
         private void setList(List<Text> texts) {

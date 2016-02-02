@@ -19,7 +19,7 @@ public class InMemoryTextsRepository implements TextsRepository {
     List<Text> mCachedTexts;
 
     public InMemoryTextsRepository(@NonNull TextsServiceApi textsServiceApi) {
-        mTextsServiceApi = textsServiceApi;
+        mTextsServiceApi = checkNotNull(textsServiceApi);
     }
 
     @Override
@@ -40,17 +40,28 @@ public class InMemoryTextsRepository implements TextsRepository {
     }
 
     @Override
-    public void getText(@NonNull String textId, @NonNull LoadTextCallback callback) {
+    public void getText(@NonNull String textId, @NonNull final LoadTextCallback callback) {
+        checkNotNull(textId);
+        checkNotNull(callback);
+        mTextsServiceApi.getText(textId, new TextsServiceApi.TextsServiceCallback<Text>() {
+            @Override
+            public void onLoaded(Text text) {
+                callback.onTextLoaded(text);
+            }
+
+        });
 
     }
 
     @Override
     public void saveText(@NonNull Text text) {
-
+        checkNotNull(text);
+        mTextsServiceApi.saveText(text);
+        refreshData();
     }
 
     @Override
     public void refreshData() {
-
+        mCachedTexts = null;
     }
 }

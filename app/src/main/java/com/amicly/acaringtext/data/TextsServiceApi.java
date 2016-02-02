@@ -17,7 +17,7 @@ public interface TextsServiceApi {
 
     void getAllTexts(TextsServiceCallback<List<Text>> callback);
 
-    void getText(String textId, TextsServiceCallback<Text>);
+    void getText(String textId, TextsServiceCallback<Text> callback);
 
     void saveText(Text text);
 }

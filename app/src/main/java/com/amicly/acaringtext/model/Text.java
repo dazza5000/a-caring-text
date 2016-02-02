@@ -1,6 +1,11 @@
 package com.amicly.acaringtext.model;
 
+import android.support.annotation.NonNull;
+
+import java.util.UUID;
+
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
@@ -8,6 +13,7 @@ import io.realm.annotations.Required;
  */
 public class Text extends RealmObject {
     @Required
+    @PrimaryKey
     private String mId;
     @Required
     private String mDateTime;
@@ -18,43 +24,53 @@ public class Text extends RealmObject {
     @Required
     private String mMessage;
 
-    public String getId() {
+    public Text() {}
+
+    public Text(@NonNull String dateTime, @NonNull String contact, @NonNull String contactNumber, @NonNull String message) {
+        mId = UUID.randomUUID().toString();
+        mDateTime = dateTime;
+        mContact = contact;
+        mContactNumber = contactNumber;
+        mMessage = message;
+    }
+
+    public String getmId() {
         return mId;
     }
 
-    public void setId(String id) {
+    public void setmId(String id) {
         mId = id;
     }
 
-    public String getDateTime() {
+    public String getmDateTime() {
         return mDateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setmDateTime(String dateTime) {
         this.mDateTime = dateTime;
     }
 
-    public String getContact() {
+    public String getmContact() {
         return mContact;
     }
 
-    public void setContact(String contact) {
+    public void setmContact(String contact) {
         this.mContact = contact;
     }
 
-    public String getContactNumber() {
+    public String getmContactNumber() {
         return mContactNumber;
     }
 
-    public void setContactNumber(String contactNumber) {
+    public void setmContactNumber(String contactNumber) {
         this.mContactNumber = contactNumber;
     }
 
-    public String getMessage() {
+    public String getmMessage() {
         return mMessage;
     }
 
-    public void setMessage(String message) {
+    public void setmMessage(String message) {
         this.mMessage = message;
     }
 }

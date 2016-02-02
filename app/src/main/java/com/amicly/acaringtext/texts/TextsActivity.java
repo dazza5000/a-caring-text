@@ -3,12 +3,18 @@ package com.amicly.acaringtext.texts;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.amicly.acaringtext.ActApplication;
 import com.amicly.acaringtext.R;
 
+import javax.inject.Inject;
+
 public class TextsActivity extends AppCompatActivity {
+
+    @Inject String testString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +22,10 @@ public class TextsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_texts);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ((ActApplication) getApplication()).getComponent().inject(this);
+
+        Log.v("TextsActivity", "Guess what?" + testString);
     }
 
     @Override

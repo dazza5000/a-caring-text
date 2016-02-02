@@ -9,16 +9,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class TextRepositories {
 
-    private TextRepositories(){
-
-    }
+    private TextRepositories(){}
 
     private static TextsRepository repository = null;
 
-    public synchronized TextsRepository getInMemoryRepoInstance(@NonNull TextsServiceApi textsServiceApi){
+    public synchronized static TextsRepository getInMemoryRepoInstance(@NonNull TextsServiceApi textsServiceApi){
         checkNotNull(textsServiceApi);
         if (null == repository){
-            repository = InMemoryTextsRepository(textsServiceApi);
+            repository = new InMemoryTextsRepository(textsServiceApi);
         }
         return repository;
     }
