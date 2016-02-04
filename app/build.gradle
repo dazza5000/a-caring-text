@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
@@ -83,6 +98,9 @@ dependencies {
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
     androidTestCompile "com.android.support.test:runner:$runnerVersion"
     androidTestCompile "com.android.support.test:rules:$runnerVersion"
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
 }
 
 apply from: 'qa-check.gradle'

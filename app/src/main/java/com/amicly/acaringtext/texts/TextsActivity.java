@@ -1,10 +1,12 @@
 package com.amicly.acaringtext.texts;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.amicly.acaringtext.ActApplication;
@@ -25,15 +27,19 @@ public class TextsActivity extends AppCompatActivity {
 
         ((ActApplication) getApplication()).getComponent().inject(this);
 
-        Log.v("TextsActivity", "Guess what?" + testString);
+        Log.v("TextsActivity", "Guess what? " + testString);
+
+        if (null == savedInstanceState) {
+            initFragment(TextsFragment.newInstance());
+        }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // ACT doesn't currently need a menu
-        //getMenuInflater().inflate(R.menu.menu_texts, menu);
-        return true;
+    private void initFragment(Fragment textsFragment) {
+        // Add the NotesFragment to the layout
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.contentFrame, textsFragment);
+        transaction.commit();
     }
 
     @Override
@@ -50,4 +56,6 @@ public class TextsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

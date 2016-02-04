@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import com.amicly.acaringtext.data.TextsRepository;
 import com.amicly.acaringtext.model.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -24,6 +27,18 @@ public class TextsPresenter implements TextsContract.UserActionsListener {
     @Override
     public void loadTexts(boolean forceUpdate) {
 
+        List<Text> texts = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+            Text text = new Text();
+            text.setmDateTime("7:77");
+            text.setmContact("Mr or Mrs. let's rock #" +i);
+            text.setmMessage("hello moto " +i);
+            texts.add(i, text);
+
+        }
+
+        mTextsView.showTexts(texts);
     }
 
     @Override

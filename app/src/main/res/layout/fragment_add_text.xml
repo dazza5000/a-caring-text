@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -14,20 +12,40 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <EditText
-            android:id="@+id/add_text_title"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/add_text_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/text_date_hint"/>
+
+            <Button
+                android:id="@+id/add_text_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/text_time_hint"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_text_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/title_hint"
+            android:hint="@string/contact_hint"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
         <EditText
-            android:id="@+id/add_note_description"
+            android:id="@+id/add_text_message"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:gravity="top"
-            android:hint="@string/description_hint"/>
+            android:hint="@string/message_hint"/>
 
     </LinearLayout>
 </ScrollView>

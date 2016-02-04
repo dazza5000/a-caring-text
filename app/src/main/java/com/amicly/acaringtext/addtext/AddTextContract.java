@@ -11,7 +11,11 @@ public interface AddTextContract {
 
         void showTextsList();
 
-        void openContactChooser();
+        void showContactPicker();
+
+        void showDatePicker();
+
+        void showTimePicker();
 
         void setUserActionListener(UserActionsListener listener);
     }
@@ -20,7 +24,15 @@ public interface AddTextContract {
 
         void saveText(String dateTime, String contact, String contactNumber, String message);
 
-        void chooseContact(String contactName, String contactNumber);
+        void pickDate();
+
+        void pickTime();
+
+        void saveDate();
+
+        void saveTime();
+
+        void chooseContact();
 
     }
 }

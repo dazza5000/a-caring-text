@@ -6,6 +6,8 @@ import com.amicly.acaringtext.di.ApplicationComponent;
 import com.amicly.acaringtext.di.ApplicationModule;
 import com.amicly.acaringtext.di.DaggerApplicationComponent;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import timber.log.Timber;
@@ -19,6 +21,7 @@ public class ActApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(realmConfiguration);
 

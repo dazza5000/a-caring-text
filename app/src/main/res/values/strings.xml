@@ -2,4 +2,9 @@
     <string name="app_name">A Caring Text</string>
     <string name="action_settings">Settings</string>
     <string name="successfully_saved_text_message">Text saved</string>
+    <string name="contact_hint">Select Contact</string>
+    <string name="message_hint">Add Text Message...</string>
+    <string name="text_date_hint">Select Day</string>
+    <string name="text_time_hint">Select Time</string>
+    <string name="date_picker_title">Date to send message:</string>
 </resources>

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.amicly.acaringtext.Injection;
 import com.amicly.acaringtext.R;
+import com.amicly.acaringtext.addtext.AddTextActivity;
 import com.amicly.acaringtext.model.Text;
 
 import java.util.ArrayList;
@@ -37,6 +38,11 @@ public class TextsFragment extends Fragment implements TextsContract.View {
 
     public TextsFragment() {
     }
+
+    public static TextsFragment newInstance() {
+        return new TextsFragment();
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +83,7 @@ public class TextsFragment extends Fragment implements TextsContract.View {
         recyclerView.setAdapter(mListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,8 +101,8 @@ public class TextsFragment extends Fragment implements TextsContract.View {
 
     @Override
     public void showAddText() {
-//        Intent intent = new Intent(getContext(),AddTextActivity.class);
-//        startActivityForResult(intent, REQUEST_ADD_TEXT);
+        Intent intent = new Intent(getContext(),AddTextActivity.class);
+        startActivityForResult(intent, REQUEST_ADD_TEXT);
     }
 
     @Override

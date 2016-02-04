@@ -6,9 +6,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.DatePicker;
-import android.widget.EditText;
-
-import com.amicly.acaringtext.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -54,8 +51,8 @@ public class DatePickerFragment extends DialogFragment
 
         month += 1;
 
-        EditText habitDate = (EditText) getActivity().findViewById(R.id.text_view_habit_date);
-        habitDate.setText(month +"/" + day + "/" + year );
+//        EditText habitDate = (EditText) getActivity().findViewById(R.id.text_view_habit_date);
+//        habitDate.setText(month +"/" + day + "/" + year );
 
 
 
