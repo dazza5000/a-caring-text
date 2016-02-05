@@ -43,7 +43,7 @@
         <EditText
             android:id="@+id/add_text_message"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="200dp"
             android:gravity="top"
             android:hint="@string/message_hint"/>
 
