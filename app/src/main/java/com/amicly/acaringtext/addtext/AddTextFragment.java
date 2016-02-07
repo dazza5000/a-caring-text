@@ -5,7 +5,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,12 +24,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.amicly.acaringtext.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by daz on 2/2/16.
@@ -34,13 +42,20 @@ public class AddTextFragment extends Fragment {
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
 
+    private static final String KEY_DATE = "date";
+    private static final String KEY_TIME = "time";
+
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
+    private static final int REQUEST_CONTACT = 2;
 
     private Button mDateButton;
     private Button mTimeButton;
-    private Button mContact;
+    private Button mContactButton;
     private EditText mMessage;
+
+    private String mDate;
+    private String mTime;
 
     private AddTextContract.UserActionsListener mActionsListener;
 
@@ -75,7 +90,25 @@ public class AddTextFragment extends Fragment {
                 dialog.show(fm, DIALOG_TIME);
         }
         });
-        mContact = (Button) root.findViewById(R.id.add_text_contact);
+        mContactButton = (Button) root.findViewById(R.id.add_text_contact);
+
+        final Intent pickContact = new Intent(Intent.ACTION_PICK,
+                ContactsContract.Contacts.CONTENT_URI);
+
+        PackageManager packageManager = getActivity().getPackageManager();
+        if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
+            mContactButton.setEnabled(false);
+        }
+
+        mContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(pickContact, REQUEST_CONTACT);
+            }
+        });
+
+
+
         mMessage = (EditText) root.findViewById(R.id.add_text_message);
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_notes);
@@ -83,13 +116,30 @@ public class AddTextFragment extends Fragment {
             @Override
             public void onClick(View view) {
 //                mActionsListener.saveText(mDateButton.getText().toString(),
-//                        mTimeButton.getText().toString(), mContact.getText().toString(),
+//                        mTimeButton.getText().toString(), mContactButton.getText().toString(),
 //                        mMessage.getText().toString());
             }
         });
 
         return root;
 
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mDate = savedInstanceState.getString(KEY_DATE);
+            mTime = savedInstanceState.getString(KEY_TIME);
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_DATE, mDate);
+        outState.putString(KEY_TIME, mTime);
     }
 
     @Override
@@ -108,6 +158,76 @@ public class AddTextFragment extends Fragment {
             Date date = (Date) data
                     .getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             mTimeButton.setText(date.toString());
+        }
+
+        if (requestCode == REQUEST_CONTACT && data != null) {
+            Uri contactUri = data.getData();
+            String[] queryFields = new String[] {
+                    ContactsContract.Contacts.DISPLAY_NAME
+            };
+
+            Cursor c = getActivity().getContentResolver()
+                    .query(contactUri, queryFields, null, null, null);
+
+            try {
+                if (c.getCount() == 0){
+                    return;
+                }
+                Cursor cursor = null;
+                String phoneNumber = "";
+                List<String> allNumbers = new ArrayList<>();
+                int phoneIdx = 0;
+                try {
+                    Uri result = data.getData();
+                    String id = result.getLastPathSegment();
+                    cursor = getActivity().getContentResolver().query(Phone.CONTENT_URI, null,
+                            Phone.CONTACT_ID + "=?", new String[] { id }, null);
+                    phoneIdx = cursor.getColumnIndex(Phone.DATA);
+                    if (cursor.moveToFirst()) {
+                        while (cursor.isAfterLast() == false) {
+                            phoneNumber = cursor.getString(phoneIdx);
+                            allNumbers.add(phoneNumber);
+                            cursor.moveToNext();
+                        }
+                    } else {
+                        //no results actions
+                    }
+                } catch (Exception e) {
+                    //error actions
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+
+                    final CharSequence[] items = allNumbers.toArray(new String[allNumbers.size()]);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Choose a number");
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String selectedNumber = items[item].toString();
+                            selectedNumber = selectedNumber.replace("-", "");
+                            Toast.makeText(getActivity(), selectedNumber, Toast.LENGTH_SHORT);
+                            mContactButton.setText(selectedNumber);
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    if(allNumbers.size() > 1) {
+                        alert.show();
+                    } else {
+                        String selectedNumber = phoneNumber.toString();
+                        selectedNumber = selectedNumber.replace("-", "");
+                        Toast.makeText(getActivity(), selectedNumber, Toast.LENGTH_SHORT);
+                       mContactButton.setText(selectedNumber);
+                    }
+
+                    if (phoneNumber.length() == 0) {
+                        //no numbers found actions
+                    }
+                }
+            } finally {
+                c.close();
+            }
+
         }
     }
 

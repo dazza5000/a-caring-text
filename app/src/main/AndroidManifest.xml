@@ -21,8 +21,9 @@
         <activity android:name=".addtext.AddTextActivity" />
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="a990417f6f9d08531281f34e943909afd40c2a11" />
+            android:value="${fabricApiKey}" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
 </manifest>
