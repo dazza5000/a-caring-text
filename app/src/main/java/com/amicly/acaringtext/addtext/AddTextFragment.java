@@ -1,7 +1,6 @@
 package com.amicly.acaringtext.addtext;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,10 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
@@ -21,23 +18,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.amicly.acaringtext.R;
+import com.amicly.acaringtext.pickers.DatePickerFragment;
+import com.amicly.acaringtext.pickers.TimePickerFragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
  * Created by daz on 2/2/16.
  */
-public class AddTextFragment extends Fragment {
+public class AddTextFragment extends Fragment implements AddTextContract.View {
 
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
@@ -57,7 +52,7 @@ public class AddTextFragment extends Fragment {
     private String mDate;
     private String mTime;
 
-    private AddTextContract.UserActionsListener mActionsListener;
+    private AddTextContract.UserActionsListener mActionListener;
 
 
     public static AddTextFragment newInstance() {
@@ -115,7 +110,7 @@ public class AddTextFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mActionsListener.saveText(mDateButton.getText().toString(),
+//                mActionListener.saveText(mDateButton.getText().toString(),
 //                        mTimeButton.getText().toString(), mContactButton.getText().toString(),
 //                        mMessage.getText().toString());
             }
@@ -128,6 +123,8 @@ public class AddTextFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mActionListener = new AddTextPresenter(this);
+
         if (savedInstanceState != null) {
             mDate = savedInstanceState.getString(KEY_DATE);
             mTime = savedInstanceState.getString(KEY_TIME);
@@ -157,7 +154,8 @@ public class AddTextFragment extends Fragment {
         if (requestCode == REQUEST_TIME) {
             Date date = (Date) data
                     .getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-            mTimeButton.setText(date.toString());
+//            mTimeButton.setText(date.toString());
+            mActionListener.setTime(date);
         }
 
         if (requestCode == REQUEST_CONTACT && data != null) {
@@ -231,129 +229,8 @@ public class AddTextFragment extends Fragment {
         }
     }
 
-    //DatePicker to choose the day to send the text on
-    public static class DatePickerFragment extends DialogFragment{
-
-        public static final String EXTRA_DATE =
-                "com.amicly.acaringtext.date";
-
-        private static final String ARG_DATE = "date";
-
-        private DatePicker mDatePicker;
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            Date date = (Date) getArguments().getSerializable(ARG_DATE);
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            View v = LayoutInflater.from(getActivity())
-                     .inflate(R.layout.dialog_date, null);
-
-            mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_date_picker);
-            mDatePicker.init(year, month, day, null);
-
-            return new AlertDialog.Builder(getActivity())
-                     .setView(v)
-//                     .setTitle(R.string.date_picker_title)
-                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialog, int which) {
-                             int year = mDatePicker.getYear();
-                             int month = mDatePicker.getMonth();
-                             int day = mDatePicker.getDayOfMonth();
-                             Date date = new GregorianCalendar(year, month, day).getTime();
-                             sendResult(Activity.RESULT_OK, date);
-                         }
-                     })
-                     .create();
-            }
-
-        private static DatePickerFragment newInstance(Date date) {
-            Bundle args = new Bundle();
-            args.putSerializable(ARG_DATE, date);
-            DatePickerFragment fragment = new DatePickerFragment();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        private void sendResult(int resultCode, Date date) {
-            if (getTargetFragment() == null) {
-                return;
-            }
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_DATE, date);
-
-            getTargetFragment().
-                    onActivityResult(getTargetRequestCode(), resultCode, intent);
-        }
+    @Override
+    public void showTime(String time) {
+        mTimeButton.setText(time);
     }
-
-    //DatePicker to choose the day to send the text on
-    public static class TimePickerFragment extends DialogFragment{
-
-        public static final String EXTRA_TIME =
-                "com.amicly.acaringtext.time";
-
-        private static final String ARG_TIME = "time";
-
-        private TimePicker mTimePicker;
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            Date date = (Date) getArguments().getSerializable(ARG_TIME);
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-
-            View v = LayoutInflater.from(getActivity())
-                    .inflate(R.layout.dialog_time, null);
-
-            mTimePicker = (TimePicker) v.findViewById(R.id.dialog_time_time_picker);
-            mTimePicker.setCurrentHour(hour);
-            mTimePicker.setCurrentMinute(minute);
-
-            return new AlertDialog.Builder(getActivity())
-                    .setView(v)
-//                    .setTitle(R.string.time_picker_title)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            int hour = mTimePicker.getCurrentHour();
-                            int minute = mTimePicker.getCurrentMinute();
-                            Date date = new GregorianCalendar(0, 0, 0, hour, minute).getTime();
-                            sendResult(Activity.RESULT_OK, date);
-                        }
-                    })
-                    .create();
-        }
-
-        private static TimePickerFragment newInstance(Date date) {
-            Bundle args = new Bundle();
-            args.putSerializable(ARG_TIME, date);
-            TimePickerFragment fragment = new TimePickerFragment();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        private void sendResult(int resultCode, Date date) {
-            if (getTargetFragment() == null) {
-                return;
-            }
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_TIME, date);
-
-            getTargetFragment().
-                    onActivityResult(getTargetRequestCode(), resultCode, intent);
-        }
-    }
-
 }

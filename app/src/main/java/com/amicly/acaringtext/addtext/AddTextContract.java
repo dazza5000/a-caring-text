@@ -1,38 +1,43 @@
 package com.amicly.acaringtext.addtext;
 
+import java.util.Date;
+
 /**
  * Created by daz on 2/2/16.
  */
 public interface AddTextContract {
 
-    public interface View {
+    interface View {
 
-        void showEmptyTextError();
+//        void showEmptyTextError();
+//
+//        void showTextsList();
+//
+//        void showContactPicker();
+//
+//        void showDatePicker();
+//
+//        void showTimePicker();
+//
+//        void setUserActionListener(UserActionsListener listener);
+//
+        void showTime(String time);
 
-        void showTextsList();
-
-        void showContactPicker();
-
-        void showDatePicker();
-
-        void showTimePicker();
-
-        void setUserActionListener(UserActionsListener listener);
     }
 
-    public interface UserActionsListener {
+    interface UserActionsListener {
 
-        void saveText(String dateTime, String contact, String contactNumber, String message);
+//        void saveText(String dateTime, String contact, String contactNumber, String message);
+//
+//        void pickDate();
 
-        void pickDate();
+//        void pickTime();
 
-        void pickTime();
+        void setDate();
 
-        void saveDate();
+        void setTime(Date date);
 
-        void saveTime();
-
-        void chooseContact();
+//        void chooseContact();
 
     }
 }
