@@ -28,8 +28,9 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     public void setTime(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
         Calendar calendar = new GregorianCalendar();
+        dateFormat.setCalendar(calendar);
         calendar.setTime(date);
-        String formattedTime = dateFormat.format(calendar);
+        String formattedTime = dateFormat.format(calendar.getTime());
         mAddTextView.showTime(formattedTime);
     }
 }
