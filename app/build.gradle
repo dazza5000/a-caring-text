@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+
     }
 
     dependencies {
@@ -34,6 +35,10 @@ android {
         debug {
             // Run code coverage reports by default on debug builds.
             testCoverageEnabled = true
+            ext.betaDistributionReleaseNotes="Release Notes for this build."
+            ext.betaDistributionEmails=betaTesters
+
+
         }
         release {
             minifyEnabled false
@@ -73,6 +78,7 @@ ext {
     espressoVersion = '2.2.1'
     runnerVersion = '0.4.1'
     guavaVersion = '19.0'
+
 }
 
 dependencies {
