@@ -1,7 +1,6 @@
 package com.amicly.acaringtext.data;
 
-import com.amicly.acaringtext.model.Text;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -16,12 +15,27 @@ public class TextsServiceApiImpl implements TextsServiceApi {
     @Override
     public void getAllTexts(TextsServiceCallback<List<Text>> callback) {
 
-        Text text = new Text();
-        text.setmId("asdf");
+//        Text text = new Text();
+//        text.setmId("asdf");
+//
+//        realm.beginTransaction();
+//        realm.copyToRealm(text);
+//        realm.commitTransaction();
 
-        realm.beginTransaction();
-        realm.copyToRealm(text);
-        realm.commitTransaction();
+        List<Text> texts = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+            Text text = new Text();
+            text.setmDateTime("7:77");
+            text.setmContact("Mr or Mrs. let's rock #" +i);
+            text.setmMessage("hello moto " +i);
+            texts.add(i, text);
+
+        }
+
+        callback.onLoaded(texts);
+
+
 
     }
 

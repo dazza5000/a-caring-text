@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.amicly.acaringtext.Injection;
 import com.amicly.acaringtext.R;
 import com.amicly.acaringtext.addtext.AddTextActivity;
-import com.amicly.acaringtext.model.Text;
+import com.amicly.acaringtext.data.Text;
 
 import java.util.ArrayList;
 import java.util.List;

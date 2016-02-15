@@ -2,7 +2,7 @@ package com.amicly.acaringtext.texts;
 
 import android.support.annotation.NonNull;
 
-import com.amicly.acaringtext.model.Text;
+import com.amicly.acaringtext.data.Text;
 
 import java.util.List;
 

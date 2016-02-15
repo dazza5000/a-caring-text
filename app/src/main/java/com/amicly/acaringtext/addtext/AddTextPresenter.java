@@ -2,15 +2,19 @@ package com.amicly.acaringtext.addtext;
 
 import android.support.annotation.NonNull;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+
+import static com.amicly.acaringtext.util.DateUtil.getDateStringFromDate;
+import static com.amicly.acaringtext.util.DateUtil.getTimeStringFromDate;
 
 /**
  * Created by daz on 2/2/16.
  */
 public class AddTextPresenter implements AddTextContract.UserActionsListener {
+
+    private Date mDate;
+    private Date mTime;
+
 
     @NonNull
     private final AddTextContract.View mAddTextView;
@@ -20,17 +24,14 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     }
 
     @Override
-    public void setDate(){
-        //Complete later
+    public void setDate(Date date){
+        mDate = date;
+        mAddTextView.showDate(getDateStringFromDate(date));
     }
 
     @Override
     public void setTime(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
-        Calendar calendar = new GregorianCalendar();
-        dateFormat.setCalendar(calendar);
-        calendar.setTime(date);
-        String formattedTime = dateFormat.format(calendar.getTime());
-        mAddTextView.showTime(formattedTime);
+        mTime = date;
+        mAddTextView.showTime(getTimeStringFromDate(date));
     }
 }

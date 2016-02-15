@@ -1,4 +1,4 @@
-package com.amicly.acaringtext.model;
+package com.amicly.acaringtext.data;
 
 import android.support.annotation.NonNull;
 

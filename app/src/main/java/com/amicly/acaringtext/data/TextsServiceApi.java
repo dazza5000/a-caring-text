@@ -1,7 +1,5 @@
 package com.amicly.acaringtext.data;
 
-import com.amicly.acaringtext.model.Text;
-
 import java.util.List;
 
 /**

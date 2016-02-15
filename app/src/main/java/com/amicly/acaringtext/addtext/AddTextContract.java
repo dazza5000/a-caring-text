@@ -21,6 +21,8 @@ public interface AddTextContract {
 //
 //        void setUserActionListener(UserActionsListener listener);
 //
+        void showDate(String date);
+
         void showTime(String time);
 
     }
@@ -33,7 +35,7 @@ public interface AddTextContract {
 
 //        void pickTime();
 
-        void setDate();
+        void setDate(Date date);
 
         void setTime(Date date);
 

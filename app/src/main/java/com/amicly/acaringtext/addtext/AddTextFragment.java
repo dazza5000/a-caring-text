@@ -148,7 +148,8 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mDateButton.setText(date.toString());
+//            mDateButton.setText(date.toString());
+            mActionListener.setDate(date);
         }
 
         if (requestCode == REQUEST_TIME) {
@@ -232,5 +233,10 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     @Override
     public void showTime(String time) {
         mTimeButton.setText(time);
+    }
+
+    @Override
+    public void showDate(String date) {
+        mDateButton.setText(date);
     }
 }

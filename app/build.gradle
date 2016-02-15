@@ -36,7 +36,7 @@ android {
             // Run code coverage reports by default on debug builds.
             testCoverageEnabled = true
             ext.betaDistributionReleaseNotes="Release Notes for this build."
-            ext.betaDistributionEmails=betaTesters
+            ext.betaDistributionEmails="darran@whereisdarran.com"
 
 
         }

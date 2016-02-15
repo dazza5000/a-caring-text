@@ -2,7 +2,6 @@ package com.amicly.acaringtext.data;
 
 import android.support.annotation.NonNull;
 
-import com.amicly.acaringtext.model.Text;
 import com.google.common.collect.ImmutableList;
 
 import java.util.List;
