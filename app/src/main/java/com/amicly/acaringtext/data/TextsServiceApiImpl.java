@@ -11,6 +11,7 @@ import io.realm.Realm;
 public class TextsServiceApiImpl implements TextsServiceApi {
 
     private Realm realm = Realm.getDefaultInstance();
+    List<Text> texts = new ArrayList<>();
 
     @Override
     public void getAllTexts(TextsServiceCallback<List<Text>> callback) {
@@ -21,8 +22,6 @@ public class TextsServiceApiImpl implements TextsServiceApi {
 //        realm.beginTransaction();
 //        realm.copyToRealm(text);
 //        realm.commitTransaction();
-
-        List<Text> texts = new ArrayList<>();
 
         for (int i = 0; i < 100; i++) {
             Text text = new Text();
@@ -46,6 +45,12 @@ public class TextsServiceApiImpl implements TextsServiceApi {
 
     @Override
     public void saveText(Text text) {
+
+        Text fakeText = new Text();
+        text.setmDateTime("77:77");
+        text.setmContact("Mr or Mrs. let's rock #" +77);
+        text.setmMessage("hello moto " +77);
+        texts.add(texts.size() , fakeText);
 
     }
 }

@@ -2,6 +2,9 @@ package com.amicly.acaringtext.addtext;
 
 import android.support.annotation.NonNull;
 
+import com.amicly.acaringtext.data.Text;
+import com.amicly.acaringtext.data.TextsRepository;
+
 import java.util.Date;
 
 import static com.amicly.acaringtext.util.DateUtil.getDateStringFromDate;
@@ -12,6 +15,8 @@ import static com.amicly.acaringtext.util.DateUtil.getTimeStringFromDate;
  */
 public class AddTextPresenter implements AddTextContract.UserActionsListener {
 
+    private final TextsRepository mTextsRepository;
+
     private Date mDate;
     private Date mTime;
 
@@ -19,7 +24,8 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     @NonNull
     private final AddTextContract.View mAddTextView;
 
-    public AddTextPresenter(@NonNull AddTextContract.View addTextView) {
+    public AddTextPresenter(@NonNull TextsRepository textsRepository, @NonNull AddTextContract.View addTextView) {
+        mTextsRepository = textsRepository;
         mAddTextView = addTextView;
     }
 
@@ -33,5 +39,10 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     public void setTime(Date date) {
         mTime = date;
         mAddTextView.showTime(getTimeStringFromDate(date));
+    }
+
+    @Override
+    public void saveText(String dateTime, String contact, String contactNumber, String message) {
+        mTextsRepository.saveText(new Text());
     }
 }
