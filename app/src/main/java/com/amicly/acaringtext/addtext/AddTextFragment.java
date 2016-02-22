@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amicly.acaringtext.Injection;
 import com.amicly.acaringtext.R;
 import com.amicly.acaringtext.pickers.DatePickerFragment;
 import com.amicly.acaringtext.pickers.TimePickerFragment;
@@ -124,7 +125,7 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActionListener = new AddTextPresenter(this);
+        mActionListener = new AddTextPresenter(Injection.provideTextsRepository(), this);
 
         if (savedInstanceState != null) {
             mDate = savedInstanceState.getString(KEY_DATE);
