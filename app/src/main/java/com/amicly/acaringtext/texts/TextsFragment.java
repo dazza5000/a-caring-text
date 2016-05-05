@@ -222,11 +222,8 @@ public class TextsFragment extends Fragment implements TextsContract.View {
                 int position = getAdapterPosition();
                 Text text = getItem(position);
                 mItemListener.onTextClick(text);
-
             }
-
         }
-
     }
 
     public interface TextItemListener {
