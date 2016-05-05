@@ -17,10 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.amicly.acaringtext.Injection;
 import com.amicly.acaringtext.R;
 import com.amicly.acaringtext.addtext.AddTextActivity;
+import com.amicly.acaringtext.data.InMemoryTextsRepository;
 import com.amicly.acaringtext.data.Text;
+import com.amicly.acaringtext.data.TextsServiceApiImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,8 @@ public class TextsFragment extends Fragment implements TextsContract.View {
 
         setRetainInstance(true);
 
-        mActionsListener = new TextsPresenter(Injection.provideTextsRepository(getActivity()), this);
+        mActionsListener = new TextsPresenter(
+                new InMemoryTextsRepository(new TextsServiceApiImpl(getActivity())), this);
 
     }
 
