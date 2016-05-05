@@ -44,8 +44,12 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
 
     @Override
     public void saveText(String dateTime, String contact, String contactNumber, String message) {
-        mTextsRepository.saveText(
-                new Text(dateTime.trim(), contact.trim(), contactNumber.trim(), message.trim()));
+        Text textToSave = new Text(dateTime.trim(), contact.trim(), contactNumber.trim(), message.trim());
+        if (textToSave.isEmpty()){
+            mAddTextView.showEmptyTextError();
+        } else {
+            mTextsRepository.saveText(textToSave);
+        }
         mAddTextView.showTexts();
     }
 }

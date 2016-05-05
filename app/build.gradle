@@ -1,15 +1,17 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
-
+        jcenter()
     }
 
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath "io.realm:realm-gradle-plugin:0.90.0"
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'realm-android'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -92,8 +94,8 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
     compile "com.google.guava:guava:$guavaVersion"
-    compile 'io.realm:realm-android:0.87.4'
     compile 'com.jakewharton.timber:timber:4.1.0'
+    compile 'com.android.support:cardview-v7:23.3.0'
 
     // Dagger 2 and Compiler
     compile 'com.google.dagger:dagger:2.0.1'

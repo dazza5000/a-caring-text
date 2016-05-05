@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -91,7 +93,39 @@ public class TextsFragment extends Fragment implements TextsContract.View {
             }
         });
 
+        // Pull-to-refresh
+        SwipeRefreshLayout swipeRefreshLayout =
+                (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mActionsListener.loadTexts(true);
+            }
+        });
+
         return root;
+    }
+
+    @Override
+    public void setProgressIndicator(final boolean active) {
+
+        if (getView() == null) {
+            return;
+        }
+        final SwipeRefreshLayout srl =
+                (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
+
+        // Make sure setRefreshing() is called after the layout is done with everything else.
+        srl.post(new Runnable() {
+            @Override
+            public void run() {
+                srl.setRefreshing(active);
+            }
+        });
     }
 
     @Override
@@ -178,9 +212,9 @@ public class TextsFragment extends Fragment implements TextsContract.View {
             public ViewHolder(View itemView, TextItemListener listener) {
                 super(itemView);
                 mItemListener = listener;
-                dateTime = (TextView) itemView.findViewById(R.id.text_date_time);
-                contact = (TextView) itemView.findViewById(R.id.text_contact);
-                message = (TextView) itemView.findViewById(R.id.text_message);
+                dateTime = (TextView) itemView.findViewById(R.id.text_detail_date_time);
+                contact = (TextView) itemView.findViewById(R.id.text_detail_contact);
+                message = (TextView) itemView.findViewById(R.id.text_detail_message);
             }
 
             @Override

@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by daz on 2/1/16.
@@ -24,7 +25,7 @@ public class TextsServiceApiImpl implements TextsServiceApi {
         this.context = context;
     }
 
-    private Realm realm = Realm.getDefaultInstance();
+
     List<Text> texts = new ArrayList<>();
 
     @Override
@@ -37,14 +38,9 @@ public class TextsServiceApiImpl implements TextsServiceApi {
 //        realm.copyToRealm(text);
 //        realm.commitTransaction();
 
-        for (int i = 0; i < 100; i++) {
-            Text text = new Text();
-            text.setmDateTime("7:77");
-            text.setmContact("Mr or Mrs. let's rock #" +i);
-            text.setmMessage("hello moto " +i);
-            texts.add(i, text);
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Text> texts = realm.where(Text.class).findAll();
 
-        }
 
         callback.onLoaded(texts);
 
@@ -60,11 +56,17 @@ public class TextsServiceApiImpl implements TextsServiceApi {
     @Override
     public void saveText(Text text) {
 
-        Text fakeText = new Text();
-        text.setmDateTime("77:77");
-        text.setmContact("Mr or Mrs. let's rock #" +77);
-        text.setmMessage("hello moto " +77);
-        texts.add(texts.size() , fakeText);
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealm(text);
+        realm.commitTransaction();
+
+
+//        Text fakeText = new Text();
+//        text.setmDateTime("77:77");
+//        text.setmContact("Mr or Mrs. let's rock #" +77);
+//        text.setmMessage("hello moto " +77);
+//        texts.add(texts.size() , fakeText);
 
         ComponentName componentName = new ComponentName(context.getApplicationContext(),
                 TextJobService.class);

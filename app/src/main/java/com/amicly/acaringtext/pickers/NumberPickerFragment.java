@@ -38,17 +38,6 @@ public class NumberPickerFragment extends DialogFragment {
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_number, null);
 
-        String[] queryFields = new String[] {
-                ContactsContract.Contacts.DISPLAY_NAME
-        };
-
-        Cursor c = getActivity().getContentResolver()
-                .query(contact, queryFields, null, null, null);
-
-        try {
-            if (c.getCount() == 0){
-                return null;
-            }
             Cursor cursor = null;
             String phoneNumber = "";
             List<String> allNumbers = new ArrayList<>();
@@ -86,23 +75,8 @@ public class NumberPickerFragment extends DialogFragment {
 
                     }
                 }).create();
-//                AlertDialog alert = builder.create();
-//                if(allNumbers.size() > 1) {
-//                    alert.show();
-//                } else {
-//                    String selectedNumber = phoneNumber.toString();
-//                    selectedNumber = selectedNumber.replace("-", "");
-//                    sendResult(Activity.RESULT_OK, selectedNumber);
-//                }
-//
-//                if (phoneNumber.length() == 0) {
-//                    //no numbers found actions
-//                    sendResult(Activity.RESULT_OK, null);
-//                }
+
             }
-        } finally {
-            c.close();
-        }
 
 
     }

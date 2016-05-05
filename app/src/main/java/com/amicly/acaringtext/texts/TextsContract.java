@@ -19,6 +19,8 @@ public interface TextsContract {
 
         void showTextDetailUi(String textId);
 
+        void setProgressIndicator(boolean active);
+
     }
 
     interface UserActionsListener {

@@ -26,10 +26,13 @@ public class TextsPresenter implements TextsContract.UserActionsListener {
     @Override
     public void loadTexts(boolean forceUpdate) {
 
+        mTextsView.setProgressIndicator(true);
+
         mTextsRepository.getTexts(new TextsRepository.LoadTextsCallback() {
             @Override
             public void onTextsLoaded(List<Text> texts) {
                 mTextsView.showTexts(texts);
+                mTextsView.setProgressIndicator(false);
             }
         });
 

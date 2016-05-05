@@ -73,4 +73,12 @@ public class Text extends RealmObject {
     public void setmMessage(String message) {
         this.mMessage = message;
     }
+
+    public boolean isEmpty() {
+        return (mDateTime == null || "".equals(mDateTime)) &&
+                (mContact == null || "".equals(mContact)) &&
+                        (mContactNumber == null || "".equals(mContactNumber)) &&
+                                (mMessage == null || "".equals(mMessage));
+    }
+
 }

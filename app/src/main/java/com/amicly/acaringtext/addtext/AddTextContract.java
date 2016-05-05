@@ -21,6 +21,8 @@ public interface AddTextContract {
 //
 //        void setUserActionListener(UserActionsListener listener);
 //
+        void showEmptyTextError();
+
         void showDate(String date);
 
         void showTime(String time);

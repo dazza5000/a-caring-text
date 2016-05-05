@@ -3,10 +3,13 @@ package com.amicly.acaringtext.addtext;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -48,6 +51,7 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
 
     private String mDate;
     private String mTime;
+    private String mContactNumber;
 
     private AddTextContract.UserActionsListener mActionListener;
 
@@ -110,7 +114,10 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
 //                mActionListener.saveText(mDateButton.getText().toString(),
 //                        mTimeButton.getText().toString(), mContactButton.getText().toString(),
 //                        mMessage.getText().toString());
-                mActionListener.saveText("", "", "", "");
+                mActionListener.saveText("",
+                        mContactButton.getText().toString().trim(),
+                        mContactNumber,
+                        mMessage.getText().toString().trim());
             }
         });
 
@@ -158,12 +165,42 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
         }
 
         if (requestCode == REQUEST_CONTACT && data != null) {
+
+            Uri contactUri = data.getData();
+            // Specify which files you want your query to return
+            // values for.
+            String[] queryFields = new String[] {
+                    ContactsContract.Contacts.DISPLAY_NAME
+            };
+            // Perform your query - the contactUri is like a "where"
+            // clause here
+            Cursor c = getActivity().getContentResolver()
+                    .query(contactUri, queryFields, null, null, null);
+
+            try {
+                // Double-check that you actually got results
+                if (c.getCount() == 0){
+                    return;
+                }
+
+                // Pull out the first column of the first row of data -
+                // that is your contact's name
+                c.moveToFirst();
+                String contactName = c.getString(0);
+                mContactButton.setText(contactName);
+
+            } finally {
+                c.close();
+            }
+
             FragmentManager fm = getFragmentManager();
             NumberPickerFragment dialog = NumberPickerFragment.newInstance(data.getData());
             dialog.setTargetFragment(AddTextFragment.this, REQUEST_NUMBER);
             dialog.show(fm, DIALOG_NUMBER);
         }
         if (requestCode == REQUEST_NUMBER && data != null) {
+            mContactNumber = (String) data
+                    .getSerializableExtra(NumberPickerFragment.EXTRA_PHONE_NUMBER);
 
         }
     }
@@ -181,5 +218,10 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     @Override
     public void showTexts() {
         startActivity(new Intent(getActivity(), TextsActivity.class));
+    }
+
+    @Override
+    public void showEmptyTextError() {
+        Snackbar.make(mDateButton, "Please complete all fields", Snackbar.LENGTH_LONG).show();
     }
 }
