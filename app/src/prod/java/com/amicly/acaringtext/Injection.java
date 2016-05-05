@@ -1,5 +1,7 @@
 package com.amicly.acaringtext;
 
+import android.content.Context;
+
 import com.amicly.acaringtext.data.TextRepositories;
 import com.amicly.acaringtext.data.TextsRepository;
 import com.amicly.acaringtext.data.TextsServiceApiImpl;
@@ -10,7 +12,7 @@ import com.amicly.acaringtext.data.TextsServiceApiImpl;
  */
 public class Injection {
 
-    public static TextsRepository provideTextsRepository() {
-        return TextRepositories.getInMemoryRepoInstance(new TextsServiceApiImpl());
+    public static TextsRepository provideTextsRepository(Context context) {
+        return TextRepositories.getInMemoryRepoInstance(new TextsServiceApiImpl(context));
     }
 }

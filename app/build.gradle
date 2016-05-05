@@ -107,6 +107,7 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:23.3.0'
 
     androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
+
     androidTestCompile "com.android.support.test:runner:$runnerVersion"
     androidTestCompile "com.android.support.test:rules:$runnerVersion"
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {

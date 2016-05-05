@@ -25,6 +25,8 @@ public interface AddTextContract {
 
         void showTime(String time);
 
+        void showTexts();
+
     }
 
     interface UserActionsListener {

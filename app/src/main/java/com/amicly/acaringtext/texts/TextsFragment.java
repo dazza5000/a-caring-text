@@ -62,7 +62,7 @@ public class TextsFragment extends Fragment implements TextsContract.View {
 
         setRetainInstance(true);
 
-        mActionsListener = new TextsPresenter(Injection.provideTextsRepository(), this);
+        mActionsListener = new TextsPresenter(Injection.provideTextsRepository(getActivity()), this);
 
     }
 

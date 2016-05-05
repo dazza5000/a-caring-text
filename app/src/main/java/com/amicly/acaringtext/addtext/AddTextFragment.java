@@ -1,34 +1,28 @@
 package com.amicly.acaringtext.addtext;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.amicly.acaringtext.Injection;
 import com.amicly.acaringtext.R;
 import com.amicly.acaringtext.pickers.DatePickerFragment;
+import com.amicly.acaringtext.pickers.NumberPickerFragment;
 import com.amicly.acaringtext.pickers.TimePickerFragment;
+import com.amicly.acaringtext.texts.TextsActivity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by daz on 2/2/16.
@@ -37,6 +31,7 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
 
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
+    private static final String DIALOG_NUMBER = "DialogNumber";
 
     private static final String KEY_DATE = "date";
     private static final String KEY_TIME = "time";
@@ -44,6 +39,7 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
     private static final int REQUEST_CONTACT = 2;
+    private static final int REQUEST_NUMBER = 3;
 
     private Button mDateButton;
     private Button mTimeButton;
@@ -125,7 +121,7 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActionListener = new AddTextPresenter(Injection.provideTextsRepository(), this);
+        mActionListener = new AddTextPresenter(Injection.provideTextsRepository(getContext()), this);
 
         if (savedInstanceState != null) {
             mDate = savedInstanceState.getString(KEY_DATE);
@@ -162,72 +158,12 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
         }
 
         if (requestCode == REQUEST_CONTACT && data != null) {
-            Uri contactUri = data.getData();
-            String[] queryFields = new String[] {
-                    ContactsContract.Contacts.DISPLAY_NAME
-            };
-
-            Cursor c = getActivity().getContentResolver()
-                    .query(contactUri, queryFields, null, null, null);
-
-            try {
-                if (c.getCount() == 0){
-                    return;
-                }
-                Cursor cursor = null;
-                String phoneNumber = "";
-                List<String> allNumbers = new ArrayList<>();
-                int phoneIdx = 0;
-                try {
-                    Uri result = data.getData();
-                    String id = result.getLastPathSegment();
-                    cursor = getActivity().getContentResolver().query(Phone.CONTENT_URI, null,
-                            Phone.CONTACT_ID + "=?", new String[] { id }, null);
-                    phoneIdx = cursor.getColumnIndex(Phone.DATA);
-                    if (cursor.moveToFirst()) {
-                        while (cursor.isAfterLast() == false) {
-                            phoneNumber = cursor.getString(phoneIdx);
-                            allNumbers.add(phoneNumber);
-                            cursor.moveToNext();
-                        }
-                    } else {
-                        //no results actions
-                    }
-                } catch (Exception e) {
-                    //error actions
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-
-                    final CharSequence[] items = allNumbers.toArray(new String[allNumbers.size()]);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Choose a number");
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            String selectedNumber = items[item].toString();
-                            selectedNumber = selectedNumber.replace("-", "");
-                            Toast.makeText(getActivity(), selectedNumber, Toast.LENGTH_SHORT);
-                            mContactButton.setText(selectedNumber);
-                        }
-                    });
-                    AlertDialog alert = builder.create();
-                    if(allNumbers.size() > 1) {
-                        alert.show();
-                    } else {
-                        String selectedNumber = phoneNumber.toString();
-                        selectedNumber = selectedNumber.replace("-", "");
-                        Toast.makeText(getActivity(), selectedNumber, Toast.LENGTH_SHORT);
-                       mContactButton.setText(selectedNumber);
-                    }
-
-                    if (phoneNumber.length() == 0) {
-                        //no numbers found actions
-                    }
-                }
-            } finally {
-                c.close();
-            }
+            FragmentManager fm = getFragmentManager();
+            NumberPickerFragment dialog = NumberPickerFragment.newInstance(data.getData());
+            dialog.setTargetFragment(AddTextFragment.this, REQUEST_NUMBER);
+            dialog.show(fm, DIALOG_NUMBER);
+        }
+        if (requestCode == REQUEST_NUMBER && data != null) {
 
         }
     }
@@ -240,5 +176,10 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     @Override
     public void showDate(String date) {
         mDateButton.setText(date);
+    }
+
+    @Override
+    public void showTexts() {
+        startActivity(new Intent(getActivity(), TextsActivity.class));
     }
 }

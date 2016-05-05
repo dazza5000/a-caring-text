@@ -24,7 +24,8 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     @NonNull
     private final AddTextContract.View mAddTextView;
 
-    public AddTextPresenter(@NonNull TextsRepository textsRepository, @NonNull AddTextContract.View addTextView) {
+    public AddTextPresenter(@NonNull TextsRepository textsRepository,
+                            @NonNull AddTextContract.View addTextView) {
         mTextsRepository = textsRepository;
         mAddTextView = addTextView;
     }
@@ -43,6 +44,8 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
 
     @Override
     public void saveText(String dateTime, String contact, String contactNumber, String message) {
-        mTextsRepository.saveText(new Text());
+        mTextsRepository.saveText(
+                new Text(dateTime.trim(), contact.trim(), contactNumber.trim(), message.trim()));
+        mAddTextView.showTexts();
     }
 }
