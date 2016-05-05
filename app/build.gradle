@@ -19,12 +19,12 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.amicly.acaringtext"
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [fabricApiKey:fabricKey]
@@ -71,10 +71,14 @@ android {
             events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
         }
     }
+
+    configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:23.3.0'
+    }
 }
 
 ext {
-    supportLibraryVersion = '23.0.1'
+    supportLibraryVersion = '23.3.0'
     espressoVersion = '2.2.1'
     runnerVersion = '0.4.1'
     guavaVersion = '19.0'
@@ -100,9 +104,9 @@ dependencies {
 
     testCompile 'org.mockito:mockito-core:1.10.19'
 
+    androidTestCompile 'com.android.support:support-annotations:23.3.0'
+
     androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
-    androidTestCompile "com.android.support.test.espresso:espresso-intents:$espressoVersion"
-    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
     androidTestCompile "com.android.support.test:runner:$runnerVersion"
     androidTestCompile "com.android.support.test:rules:$runnerVersion"
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
