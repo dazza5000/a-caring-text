@@ -1,5 +1,6 @@
 package com.amicly.acaringtext.util;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class DateUtil {
 
     public static String getDateStringFromDate(Date date) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-dd-yy");
+        DateFormat dateFormat = DateFormat.getDateInstance();
         Calendar calendar = new GregorianCalendar();
         dateFormat.setCalendar(calendar);
         calendar.setTime(date);
