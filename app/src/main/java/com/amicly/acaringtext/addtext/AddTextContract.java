@@ -33,7 +33,8 @@ public interface AddTextContract {
 
     interface UserActionsListener {
 
-        void saveText(String dateTime, String contact, String contactNumber, String message);
+        void saveText(String date, String time, String contact, String contactNumber,
+                      String message);
 //
 //        void pickDate();
 

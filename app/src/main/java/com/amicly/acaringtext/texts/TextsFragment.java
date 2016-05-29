@@ -182,7 +182,7 @@ public class TextsFragment extends Fragment implements TextsContract.View {
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
             Text text = mTexts.get(position);
 
-            viewHolder.dateTime.setText(text.getmDateTime());
+            viewHolder.dateTime.setText(text.getmDateTime().toString());
             viewHolder.contact.setText(text.getmContact());
             viewHolder.message.setText(text.getmMessage());
         }

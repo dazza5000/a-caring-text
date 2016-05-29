@@ -7,8 +7,11 @@ import com.amicly.acaringtext.data.TextsRepository;
 
 import java.util.Date;
 
+import static com.amicly.acaringtext.util.DateUtil.getDateFromDateString;
 import static com.amicly.acaringtext.util.DateUtil.getDateStringFromDate;
+import static com.amicly.acaringtext.util.DateUtil.getTimeFromTimeString;
 import static com.amicly.acaringtext.util.DateUtil.getTimeStringFromDate;
+import static com.amicly.acaringtext.util.DateUtil.mergeDateAndTime;
 
 /**
  * Created by daz on 2/2/16.
@@ -43,8 +46,16 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     }
 
     @Override
-    public void saveText(String dateTime, String contact, String contactNumber, String message) {
-        Text textToSave = new Text(dateTime.trim(), contact.trim(), contactNumber.trim(), message.trim());
+    public void saveText(String dateString, String timeString, String contact, String contactNumber,
+                         String message) {
+
+        Date date = getDateFromDateString(dateString);
+        Date time = getTimeFromTimeString(timeString);
+
+        Date dateTime = mergeDateAndTime(date, time);
+
+        Text textToSave = new Text(dateTime.getTime(), contact.trim(), contactNumber.trim(),
+                message.trim());
         if (textToSave.isEmpty()){
             mAddTextView.showEmptyTextError();
         } else {

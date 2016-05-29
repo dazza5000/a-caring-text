@@ -115,7 +115,8 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
 //                mActionListener.saveText(mDateButton.getText().toString(),
 //                        mTimeButton.getText().toString(), mContactButton.getText().toString(),
 //                        mMessage.getText().toString());
-                mActionListener.saveText("",
+                mActionListener.saveText(mDateButton.getText().toString().trim(),
+                        mTimeButton.getText().toString().trim(),
                         mContactButton.getText().toString().trim(),
                         mContactNumber,
                         mMessage.getText().toString().trim());

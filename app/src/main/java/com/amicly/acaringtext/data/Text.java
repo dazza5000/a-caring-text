@@ -16,7 +16,7 @@ public class Text extends RealmObject {
     @PrimaryKey
     private String mId;
     @Required
-    private String mDateTime;
+    private Long mDateTime;
     @Required
     private String mContact;
     @Required
@@ -26,7 +26,8 @@ public class Text extends RealmObject {
 
     public Text() {}
 
-    public Text(@NonNull String dateTime, @NonNull String contact, @NonNull String contactNumber, @NonNull String message) {
+    public Text(@NonNull Long dateTime, @NonNull String contact, @NonNull String contactNumber,
+                @NonNull String message) {
         mId = UUID.randomUUID().toString();
         mDateTime = dateTime;
         mContact = contact;
@@ -42,11 +43,11 @@ public class Text extends RealmObject {
         mId = id;
     }
 
-    public String getmDateTime() {
+    public Long getmDateTime() {
         return mDateTime;
     }
 
-    public void setmDateTime(String dateTime) {
+    public void setmDateTime(Long dateTime) {
         this.mDateTime = dateTime;
     }
 

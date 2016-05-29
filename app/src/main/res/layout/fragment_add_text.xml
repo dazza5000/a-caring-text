@@ -40,7 +40,6 @@
             android:hint="@string/contact_hint"
             android:singleLine="false"/>
 
-
         <EditText
             android:id="@+id/add_text_message"
             android:layout_width="240dp"
