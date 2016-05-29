@@ -20,4 +20,14 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="ButtonFont">
+        <item name="android:height">36dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+    </style>
+
+
 </resources>
