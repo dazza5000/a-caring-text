@@ -4,32 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    card_view:cardBackgroundColor="@color/colorPrimary"
     card_view:cardUseCompatPadding="true">
 
     <LinearLayout
         style="@style/Widget.CardContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <TextView
             android:id="@+id/text_detail_contact"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            style="@android:style/TextAppearance.Large"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:textColor="@color/colorAccent"
+            android:hint="Contact Name"/>
 
         <TextView
             android:id="@+id/text_detail_date_time"
-            style="@android:style/TextAppearance.Small"
+            style="@android:style/TextAppearance.Medium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:hint="January 1, 1920 7:77 AM"/>
 
         <TextView
             android:id="@+id/text_detail_message"
-            style="@android:style/TextAppearance.Small"
+            style="@android:style/TextAppearance.Medium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/colorAccent"
+            android:hint="This is the message that I really wanted to send you in the future"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

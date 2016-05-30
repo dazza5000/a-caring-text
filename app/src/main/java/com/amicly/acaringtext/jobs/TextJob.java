@@ -15,7 +15,6 @@ public class TextJob  extends Job {
     @Override
     @NonNull
     protected Result onRunJob(Params params) {
-        // run your job
 
         String message = params.getExtras().getString("message", "Greetings!");
 

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * Created by darrankelinske on 2/14/16.
@@ -80,5 +81,13 @@ public class DateUtil {
 
         Long currentTime = System.currentTimeMillis();
         return scheduledTime - currentTime;
+    }
+
+    public static String getFormattedDateAndTimeFromTimestamp(Long textTimestamp) {
+
+        DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+                DateFormat.SHORT);
+        dateTimeFormat.setTimeZone(TimeZone.getDefault());
+        return dateTimeFormat.format(new Date(textTimestamp));
     }
 }

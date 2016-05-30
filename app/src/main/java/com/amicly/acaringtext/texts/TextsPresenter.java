@@ -6,6 +6,8 @@ import com.amicly.acaringtext.data.Text;
 import com.amicly.acaringtext.data.TextsRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class TextsPresenter implements TextsContract.UserActionsListener {
             public void onTextsLoaded(List<Text> texts) {
                 Long currentTime = System.currentTimeMillis();
 
-                ArrayList<Text> currentTexts = new ArrayList<Text>();
+                ArrayList<Text> currentTexts = new ArrayList<>();
 
                 Iterator<Text> it = texts.iterator();
                 while (it.hasNext()) {
@@ -44,6 +46,13 @@ public class TextsPresenter implements TextsContract.UserActionsListener {
                         currentTexts.add(text);
                     }
                 }
+
+                Collections.sort(currentTexts, new Comparator<Text>() {
+                            @Override
+                            public int compare(Text text1, Text text2) {
+                                return (int) (text1.getmDateTime() - text2.getmDateTime()); // Ascending
+                            }
+                        });
 
                 mTextsView.showTexts(currentTexts);
                 mTextsView.setProgressIndicator(false);

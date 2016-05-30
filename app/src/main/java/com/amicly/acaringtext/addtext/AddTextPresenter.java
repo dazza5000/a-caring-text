@@ -49,18 +49,26 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     public void saveText(String dateString, String timeString, String contact, String contactNumber,
                          String message) {
 
-        Date date = getDateFromDateString(dateString);
-        Date time = getTimeFromTimeString(timeString);
+        if (dateString.isEmpty() || timeString.isEmpty() || contactNumber.isEmpty()
+                || message.isEmpty()) {
 
-        Date dateTime = mergeDateAndTime(date, time);
-
-        Text textToSave = new Text(dateTime.getTime(), contact.trim(), contactNumber.trim(),
-                message.trim());
-        if (textToSave.isEmpty()){
             mAddTextView.showEmptyTextError();
+
         } else {
-            mTextsRepository.saveText(textToSave);
+
+            Date date = getDateFromDateString(dateString);
+            Date time = getTimeFromTimeString(timeString);
+
+            Date dateTime = mergeDateAndTime(date, time);
+
+            Text textToSave = new Text(dateTime.getTime(), contact.trim(), contactNumber.trim(),
+                    message.trim());
+            if (textToSave.isEmpty()) {
+                mAddTextView.showEmptyTextError();
+            } else {
+                mTextsRepository.saveText(textToSave);
+            }
+            mAddTextView.showTexts();
         }
-        mAddTextView.showTexts();
     }
 }

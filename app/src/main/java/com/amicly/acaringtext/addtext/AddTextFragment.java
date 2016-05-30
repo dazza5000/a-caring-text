@@ -260,6 +260,6 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
 
     @Override
     public void showEmptyTextError() {
-        Snackbar.make(mDateButton, "Please complete all fields", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(mDateButton, "Please enter all fields.", Snackbar.LENGTH_LONG).show();
     }
 }

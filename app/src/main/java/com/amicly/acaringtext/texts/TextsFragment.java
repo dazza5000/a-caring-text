@@ -26,6 +26,7 @@ import com.amicly.acaringtext.data.TextsServiceApiImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.amicly.acaringtext.util.DateUtil.getFormattedDateAndTimeFromTimestamp;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -182,7 +183,9 @@ public class TextsFragment extends Fragment implements TextsContract.View {
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
             Text text = mTexts.get(position);
 
-            viewHolder.dateTime.setText(text.getmDateTime().toString());
+            String dateTimeString = getFormattedDateAndTimeFromTimestamp(text.getmDateTime());
+
+            viewHolder.dateTime.setText(dateTimeString);
             viewHolder.contact.setText(text.getmContact());
             viewHolder.message.setText(text.getmMessage());
         }
