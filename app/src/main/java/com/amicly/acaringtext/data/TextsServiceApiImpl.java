@@ -42,6 +42,7 @@ public class TextsServiceApiImpl implements TextsServiceApi {
         Long executionWindow = DateUtil.getTimeDifferenceFromNowInMilliseconds(text.getmDateTime());
 
         PersistableBundleCompat extras = new PersistableBundleCompat();
+        extras.putString("contactNumber", text.getmContactNumber());
         extras.putString("message", text.getmMessage());
 
         JobRequest newJobRequest = new JobRequest.Builder(TextJob.TAG)

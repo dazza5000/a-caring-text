@@ -16,11 +16,12 @@ public class TextJob  extends Job {
     @NonNull
     protected Result onRunJob(Params params) {
 
+        String contactNumber = params.getExtras().getString("contactNumber", "15126937499");
         String message = params.getExtras().getString("message", "Greetings!");
 
         SmsManager smsManager = SmsManager.getDefault();
 
-        smsManager.sendTextMessage("15126937499", null,
+        smsManager.sendTextMessage(contactNumber, null,
                 message, null, null);
         return Result.SUCCESS;
     }
