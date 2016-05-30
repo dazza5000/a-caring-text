@@ -133,7 +133,7 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActionListener = new AddTextPresenter(
-                new InMemoryTextsRepository(new TextsServiceApiImpl(getActivity())), this);
+                new InMemoryTextsRepository(new TextsServiceApiImpl()), this);
 
         if (savedInstanceState != null) {
             mDate = savedInstanceState.getString(KEY_DATE);

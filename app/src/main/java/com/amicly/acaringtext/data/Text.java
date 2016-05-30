@@ -24,6 +24,8 @@ public class Text extends RealmObject {
     @Required
     private String mMessage;
 
+    private Integer mScheduledJobId;
+
     public Text() {}
 
     public Text(@NonNull Long dateTime, @NonNull String contact, @NonNull String contactNumber,
@@ -82,4 +84,11 @@ public class Text extends RealmObject {
                                 (mMessage == null || "".equals(mMessage));
     }
 
+    public Integer getmScheduledJobId() {
+        return mScheduledJobId;
+    }
+
+    public void setmScheduledJobId(Integer mScheduledJobId) {
+        this.mScheduledJobId = mScheduledJobId;
+    }
 }

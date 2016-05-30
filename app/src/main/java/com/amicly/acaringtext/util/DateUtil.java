@@ -53,7 +53,6 @@ public class DateUtil {
         return time;
     }
 
-
     public static Date mergeDateAndTime(Date date, Date time) {
 
         GregorianCalendar dateCal = new GregorianCalendar();
@@ -75,5 +74,11 @@ public class DateUtil {
         Date dateTime = dateTimeCal.getTime();
 
         return dateTime;
+    }
+
+    public static Long getTimeDifferenceFromNowInMilliseconds(Long scheduledTime){
+
+        Long currentTime = System.currentTimeMillis();
+        return scheduledTime - currentTime;
     }
 }

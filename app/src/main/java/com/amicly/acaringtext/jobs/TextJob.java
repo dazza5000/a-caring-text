@@ -17,10 +17,12 @@ public class TextJob  extends Job {
     protected Result onRunJob(Params params) {
         // run your job
 
+        String message = params.getExtras().getString("message", "Greetings!");
+
         SmsManager smsManager = SmsManager.getDefault();
 
         smsManager.sendTextMessage("15126937499", null,
-                "This is a message from the job scheduler", null, null);
+                message, null, null);
         return Result.SUCCESS;
     }
 }

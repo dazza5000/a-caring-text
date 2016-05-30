@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.amicly.acaringtext.data.Text;
 import com.amicly.acaringtext.data.TextsRepository;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -31,7 +33,19 @@ public class TextsPresenter implements TextsContract.UserActionsListener {
         mTextsRepository.getTexts(new TextsRepository.LoadTextsCallback() {
             @Override
             public void onTextsLoaded(List<Text> texts) {
-                mTextsView.showTexts(texts);
+                Long currentTime = System.currentTimeMillis();
+
+                ArrayList<Text> currentTexts = new ArrayList<Text>();
+
+                Iterator<Text> it = texts.iterator();
+                while (it.hasNext()) {
+                    Text text = it.next();
+                    if (text.getmDateTime() > currentTime) {
+                        currentTexts.add(text);
+                    }
+                }
+
+                mTextsView.showTexts(currentTexts);
                 mTextsView.setProgressIndicator(false);
             }
         });
