@@ -26,7 +26,9 @@ import com.amicly.acaringtext.pickers.NumberPickerFragment;
 import com.amicly.acaringtext.pickers.TimePickerFragment;
 import com.amicly.acaringtext.texts.TextsActivity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by daz on 2/2/16.
@@ -172,17 +174,18 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
             Uri contactUri = data.getData();
             // Specify which files you want your query to return
             // values for.
-            String[] queryFields = new String[] {
-                    ContactsContract.Contacts.DISPLAY_NAME
-            };
+            String[] mProjection = new String[]{
+                    ContactsContract.Contacts.DISPLAY_NAME};
+            String mSelectionClause = ContactsContract.Contacts.HAS_PHONE_NUMBER + " = ?";
+            String[] mSelectionArgs = {"1"};
             // Perform your query - the contactUri is like a "where"
             // clause here
             Cursor c = getActivity().getContentResolver()
-                    .query(contactUri, queryFields, null, null, null);
+                    .query(contactUri, mProjection, mSelectionClause, mSelectionArgs, null);
 
             try {
                 // Double-check that you actually got results
-                if (c.getCount() == 0){
+                if (c.getCount() == 0) {
                     return;
                 }
 
@@ -192,15 +195,47 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
                 String contactName = c.getString(0);
                 mContactButton.setText(contactName);
 
+
             } finally {
                 c.close();
             }
 
-            FragmentManager fm = getFragmentManager();
-            NumberPickerFragment dialog = NumberPickerFragment.newInstance(data.getData());
-            dialog.setTargetFragment(AddTextFragment.this, REQUEST_NUMBER);
-            dialog.show(fm, DIALOG_NUMBER);
+            List<String> allNumbers = new ArrayList<>();
+            int phoneIdx = 0;
+            Cursor cursor = null;
+            try {
+                String id = data.getData().getLastPathSegment();
+                cursor = getActivity().getContentResolver()
+                        .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+                                new String[]{id}, null);
+                phoneIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA);
+                if (cursor.moveToFirst()) {
+                    while (cursor.isAfterLast() == false) {
+                        String phoneNumber = cursor.getString(phoneIdx);
+                        allNumbers.add(phoneNumber);
+                        cursor.moveToNext();
+                    }
+                } else {
+                    //no results actions
+                }
+            } catch (Exception e) {
+                //error actions
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            if (allNumbers.size() > 1) {
+                FragmentManager fm = getFragmentManager();
+                NumberPickerFragment dialog = NumberPickerFragment.newInstance(data.getData());
+                dialog.setTargetFragment(AddTextFragment.this, REQUEST_NUMBER);
+                dialog.show(fm, DIALOG_NUMBER);
+            } else {
+                mContactNumber = allNumbers.get(0);
+            }
         }
+
         if (requestCode == REQUEST_NUMBER && data != null) {
             mContactNumber = (String) data
                     .getSerializableExtra(NumberPickerFragment.EXTRA_PHONE_NUMBER);

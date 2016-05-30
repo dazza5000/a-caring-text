@@ -63,20 +63,21 @@ public class NumberPickerFragment extends DialogFragment {
                     cursor.close();
                 }
 
-                final CharSequence[] items = allNumbers.toArray(new String[allNumbers.size()]);
-                return new AlertDialog.Builder(getActivity())
-                .setTitle("Choose a number")
-                .setView(v)
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        String selectedNumber = items[item].toString();
-                        selectedNumber = selectedNumber.replace("-", "");
-                        sendResult(Activity.RESULT_OK, selectedNumber);
+                    final CharSequence[] items = allNumbers.toArray(new String[allNumbers.size()]);
+                    return new AlertDialog.Builder(getActivity())
+                            .setTitle("Choose a number")
+                            .setView(v)
+                            .setItems(items, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int item) {
+                                    String selectedNumber = items[item].toString();
+                                    selectedNumber = selectedNumber.replace("-", "");
+                                    sendResult(Activity.RESULT_OK, selectedNumber);
 
-                    }
-                }).create();
+                                }
+                            }).create();
 
             }
+
 
 
     }
