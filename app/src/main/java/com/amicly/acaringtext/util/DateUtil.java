@@ -66,7 +66,7 @@ public class DateUtil {
         int month = dateCal.get(Calendar.MONTH);
         int day = dateCal.get(Calendar.DAY_OF_MONTH);
 
-        int hour = timeCal.get(Calendar.HOUR);
+        int hour = timeCal.get(Calendar.HOUR_OF_DAY);
         int minute = timeCal.get(Calendar.MINUTE);
         int second = timeCal.get(Calendar.SECOND);
 
