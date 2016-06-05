@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.amicly.acaringtext.data.Text;
 import com.amicly.acaringtext.data.TextsRepository;
+import com.amicly.acaringtext.util.DateUtil;
 
 import java.util.Date;
 
@@ -61,14 +62,20 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
 
             Date dateTime = mergeDateAndTime(date, time);
 
-            Text textToSave = new Text(dateTime.getTime(), contact.trim(), contactNumber.trim(),
-                    message.trim());
-            if (textToSave.isEmpty()) {
-                mAddTextView.showEmptyTextError();
+            if(DateUtil.getTimeDifferenceFromNowInMilliseconds(date.getTime()) < 7) {
+
+
+                Text textToSave = new Text(dateTime.getTime(), contact.trim(), contactNumber.trim(),
+                        message.trim());
+                if (textToSave.isEmpty()) {
+                    mAddTextView.showEmptyTextError();
+                } else {
+                    mTextsRepository.saveText(textToSave);
+                }
+                mAddTextView.showTexts();
             } else {
-                mTextsRepository.saveText(textToSave);
+                mAddTextView.showFutureDateError();
             }
-            mAddTextView.showTexts();
         }
     }
 }

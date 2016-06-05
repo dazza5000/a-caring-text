@@ -9,25 +9,15 @@ public interface AddTextContract {
 
     interface View {
 
-//        void showEmptyTextError();
-//
-//        void showTextsList();
-//
-//        void showContactPicker();
-//
-//        void showDatePicker();
-//
-//        void showTimePicker();
-//
-//        void setUserActionListener(UserActionsListener listener);
-//
-        void showEmptyTextError();
-
         void showDate(String date);
 
         void showTime(String time);
 
         void showTexts();
+
+        void showEmptyTextError();
+
+        void showFutureDateError();
 
     }
 
@@ -35,16 +25,10 @@ public interface AddTextContract {
 
         void saveText(String date, String time, String contact, String contactNumber,
                       String message);
-//
-//        void pickDate();
-
-//        void pickTime();
 
         void setDate(Date date);
 
         void setTime(Date date);
-
-//        void chooseContact();
 
     }
 }

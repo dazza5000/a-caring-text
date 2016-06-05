@@ -106,17 +106,13 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
             }
         });
 
-
-
         mMessage = (EditText) root.findViewById(R.id.add_text_message);
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_notes);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mActionListener.saveText(mDateButton.getText().toString(),
-//                        mTimeButton.getText().toString(), mContactButton.getText().toString(),
-//                        mMessage.getText().toString());
+
                 mActionListener.saveText(mDateButton.getText().toString().trim(),
                         mTimeButton.getText().toString().trim(),
                         mContactButton.getText().toString().trim(),
@@ -158,14 +154,12 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-//            mDateButton.setText(date.toString());
             mActionListener.setDate(date);
         }
 
         if (requestCode == REQUEST_TIME) {
             Date date = (Date) data
                     .getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-//            mTimeButton.setText(date.toString());
             mActionListener.setTime(date);
         }
 
@@ -261,5 +255,11 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     @Override
     public void showEmptyTextError() {
         Snackbar.make(mDateButton, "Please enter all fields.", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showFutureDateError() {
+        Snackbar.make(mDateButton, "Please schedule a text in the future.",
+                Snackbar.LENGTH_LONG).show();
     }
 }
