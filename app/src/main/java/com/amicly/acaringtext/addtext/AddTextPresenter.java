@@ -62,8 +62,7 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
 
             Date dateTime = mergeDateAndTime(date, time);
 
-            if(DateUtil.getTimeDifferenceFromNowInMilliseconds(date.getTime()) < 7) {
-
+            if(DateUtil.getTimeDifferenceFromNowInMilliseconds(dateTime.getTime()) < 7) {
 
                 Text textToSave = new Text(dateTime.getTime(), contact.trim(), contactNumber.trim(),
                         message.trim());
