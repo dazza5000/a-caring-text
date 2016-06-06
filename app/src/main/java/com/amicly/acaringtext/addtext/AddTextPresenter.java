@@ -50,7 +50,7 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     public void saveText(String dateString, String timeString, String contact, String contactNumber,
                          String message) {
 
-        if (dateString.isEmpty() || timeString.isEmpty() || contactNumber.isEmpty()
+        if (dateString.isEmpty() || timeString.isEmpty() || (null == contactNumber)
                 || message.isEmpty()) {
 
             mAddTextView.showEmptyTextError();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,43 +13,43 @@
         android:paddingTop="@dimen/activity_vertical_margin">
 
 
-            <Button
-                style="@style/ButtonFont"
-                android:id="@+id/add_text_date"
-                android:layout_width="240dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:hint="@string/text_date_hint"/>
-
-            <Button
-                style="@style/ButtonFont"
-                android:id="@+id/add_text_time"
-                android:layout_width="240dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal"
-                android:hint="@string/text_time_hint"/>
-
         <Button
+            android:id="@+id/add_text_date"
             style="@style/ButtonFont"
-            android:id="@+id/add_text_contact"
             android:layout_width="240dp"
             android:layout_height="36dp"
-            android:layout_marginTop="16dp"
             android:layout_gravity="center_horizontal"
+            android:hint="@string/text_date_hint" />
+
+        <Button
+            android:id="@+id/add_text_time"
+            style="@style/ButtonFont"
+            android:layout_width="240dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:hint="@string/text_time_hint" />
+
+        <Button
+            android:id="@+id/add_text_contact"
+            style="@style/ButtonFont"
+            android:layout_width="240dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             android:hint="@string/contact_hint"
-            android:singleLine="false"/>
+            android:singleLine="false" />
 
         <EditText
             android:id="@+id/add_text_message"
             android:layout_width="240dp"
             android:layout_height="200dp"
-            android:layout_marginTop="16dp"
             android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="16dp"
             android:gravity="top"
-            android:textColor="@color/colorAccent"
             android:hint="@string/message_hint"
-            android:textColorHint="@color/colorAccent"/>
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
 
     </LinearLayout>
 </ScrollView>
