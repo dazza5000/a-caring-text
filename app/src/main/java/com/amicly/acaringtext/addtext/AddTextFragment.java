@@ -52,7 +52,8 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     private Button mContactButton;
     private EditText mMessage;
 
-    DatePickerFragment mDatePickerdialog;
+    DatePickerFragment mDatePickerDialog;
+    TimePickerFragment mTimePickerDialog;
 
     private String mDate;
     private String mTime;
@@ -75,11 +76,11 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDatePickerdialog == null) {
+                if (mDatePickerDialog == null) {
                     FragmentManager fm = getFragmentManager();
-                    mDatePickerdialog = DatePickerFragment.newInstance(new Date());
-                    mDatePickerdialog.setTargetFragment(AddTextFragment.this, REQUEST_DATE);
-                    mDatePickerdialog.show(fm, DIALOG_DATE);
+                    mDatePickerDialog = DatePickerFragment.newInstance(new Date());
+                    mDatePickerDialog.setTargetFragment(AddTextFragment.this, REQUEST_DATE);
+                    mDatePickerDialog.show(fm, DIALOG_DATE);
                 }
             }
         });
@@ -87,10 +88,12 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                TimePickerFragment dialog = TimePickerFragment.newInstance(new Date());
-                dialog.setTargetFragment(AddTextFragment.this, REQUEST_TIME);
-                dialog.show(fm, DIALOG_TIME);
+                if (mTimePickerDialog == null) {
+                    FragmentManager fm = getFragmentManager();
+                    mTimePickerDialog = TimePickerFragment.newInstance(new Date());
+                    mTimePickerDialog.setTargetFragment(AddTextFragment.this, REQUEST_TIME);
+                    mTimePickerDialog.show(fm, DIALOG_TIME);
+                }
         }
         });
         mContactButton = (Button) root.findViewById(R.id.add_text_contact);
@@ -159,13 +162,14 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
             Date date = (Date) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mActionListener.setDate(date);
-            mDatePickerdialog = null;
+            mDatePickerDialog = null;
         }
 
         if (requestCode == REQUEST_TIME) {
             Date date = (Date) data
                     .getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             mActionListener.setTime(date);
+            mTimePickerDialog = null;
         }
 
         if (requestCode == REQUEST_CONTACT && data != null) {
