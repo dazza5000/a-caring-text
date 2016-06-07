@@ -27,10 +27,6 @@
             android:name=".addtext.AddTextActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <service
-            android:name=".jobs.TextJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="true"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a990417f6f9d08531281f34e943909afd40c2a11" />

@@ -52,6 +52,8 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     private Button mContactButton;
     private EditText mMessage;
 
+    DatePickerFragment mDatePickerdialog;
+
     private String mDate;
     private String mTime;
     private String mContactNumber;
@@ -73,10 +75,12 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
-                dialog.setTargetFragment(AddTextFragment.this, REQUEST_DATE);
-                dialog.show(fm, DIALOG_DATE);
+                if (mDatePickerdialog == null) {
+                    FragmentManager fm = getFragmentManager();
+                    mDatePickerdialog = DatePickerFragment.newInstance(new Date());
+                    mDatePickerdialog.setTargetFragment(AddTextFragment.this, REQUEST_DATE);
+                    mDatePickerdialog.show(fm, DIALOG_DATE);
+                }
             }
         });
         mTimeButton = (Button) root.findViewById(R.id.add_text_time);
@@ -155,6 +159,7 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
             Date date = (Date) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mActionListener.setDate(date);
+            mDatePickerdialog = null;
         }
 
         if (requestCode == REQUEST_TIME) {
