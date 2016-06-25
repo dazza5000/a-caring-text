@@ -12,7 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,6 @@ import android.widget.EditText;
 import com.amicly.acaringtext.R;
 import com.amicly.acaringtext.data.InMemoryTextsRepository;
 import com.amicly.acaringtext.data.TextsServiceApiImpl;
-import com.amicly.acaringtext.data.quotes.QuoteResponse;
-import com.amicly.acaringtext.data.quotes.QuotesService;
 import com.amicly.acaringtext.pickers.DatePickerFragment;
 import com.amicly.acaringtext.pickers.NumberPickerFragment;
 import com.amicly.acaringtext.pickers.TimePickerFragment;
@@ -32,14 +29,6 @@ import com.amicly.acaringtext.texts.TextsActivity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.amicly.acaringtext.data.quotes.QuoteResponse.QUOTES_URL;
 
 /**
  * Created by daz on 2/2/16.
@@ -61,10 +50,11 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
     private Button mDateButton;
     private Button mTimeButton;
     private Button mContactButton;
+    private Button mQuoteOfTheDay;
     private EditText mMessage;
 
-    DatePickerFragment mDatePickerDialog;
-    TimePickerFragment mTimePickerDialog;
+    private DatePickerFragment mDatePickerDialog;
+    private TimePickerFragment mTimePickerDialog;
 
     private String mDate;
     private String mTime;
@@ -136,6 +126,14 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
                         mContactButton.getText().toString().trim(),
                         mContactNumber,
                         mMessage.getText().toString().trim());
+            }
+        });
+
+        mQuoteOfTheDay = (Button) root.findViewById(R.id.add_text_quote);
+        mQuoteOfTheDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mActionListener.getQuoteOfTheDay();
             }
         });
 
@@ -283,30 +281,8 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
                 Snackbar.LENGTH_LONG).show();
     }
 
-    public void getInspirationalQuote() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(QUOTES_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        QuotesService quotesService = retrofit.create(QuotesService.class);
-        String category = "inspire";
-        Call<QuoteResponse> call = quotesService.getQuote(category);
-        call.enqueue(new Callback<QuoteResponse>() {
-            @Override
-            public void onResponse(Call<QuoteResponse> call, Response<QuoteResponse> response) {
-                int statusCode = response.code();
-                QuoteResponse quoteResponse = response.body();
-                Log.d("Texts", "The response body is:" + response.body());
-                Log.d("Texts", "The response toString() is:"
-                        + quoteResponse.getContents().getQuotes());
-
-            }
-
-            @Override
-            public void onFailure(Call<QuoteResponse> call, Throwable t) {
-                // Log error here since request failed
-            }
-        });
+    @Override
+    public void showQuoteOfTheDay(String quoteOfTheDay) {
+        mMessage.setText(mMessage.getText().toString() + " " + quoteOfTheDay);
     }
 }

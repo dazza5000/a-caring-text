@@ -8,4 +8,5 @@
     <string name="text_time_hint">Select Time</string>
     <string name="date_picker_title">Date to send message:</string>
     <string name="time_picker_title">Time to send message:</string>
+    <string name="add_quote">Add Inspirational Quote</string>
 </resources>

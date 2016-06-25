@@ -19,6 +19,8 @@ public interface AddTextContract {
 
         void showFutureDateError();
 
+        void showQuoteOfTheDay(String quoteOfTheDay);
+
     }
 
     interface UserActionsListener {
@@ -29,6 +31,8 @@ public interface AddTextContract {
         void setDate(Date date);
 
         void setTime(Date date);
+
+        void getQuoteOfTheDay();
 
     }
 }

@@ -1,13 +1,24 @@
 package com.amicly.acaringtext.addtext;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.amicly.acaringtext.data.Text;
 import com.amicly.acaringtext.data.TextsRepository;
+import com.amicly.acaringtext.data.quotes.Quote;
+import com.amicly.acaringtext.data.quotes.QuoteResponse;
+import com.amicly.acaringtext.data.quotes.QuotesService;
 import com.amicly.acaringtext.util.DateUtil;
 
 import java.util.Date;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.amicly.acaringtext.data.quotes.QuoteResponse.QUOTES_URL;
 import static com.amicly.acaringtext.util.DateUtil.getDateFromDateString;
 import static com.amicly.acaringtext.util.DateUtil.getDateStringFromDate;
 import static com.amicly.acaringtext.util.DateUtil.getTimeFromTimeString;
@@ -23,7 +34,6 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
 
     private Date mDate;
     private Date mTime;
-
 
     @NonNull
     private final AddTextContract.View mAddTextView;
@@ -44,6 +54,36 @@ public class AddTextPresenter implements AddTextContract.UserActionsListener {
     public void setTime(Date date) {
         mTime = date;
         mAddTextView.showTime(getTimeStringFromDate(date));
+    }
+
+    @Override
+    public void getQuoteOfTheDay() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(QUOTES_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        QuotesService quotesService = retrofit.create(QuotesService.class);
+        String category = "inspire";
+        Call<QuoteResponse> call = quotesService.getQuote(category);
+        call.enqueue(new Callback<QuoteResponse>() {
+            @Override
+            public void onResponse(Call<QuoteResponse> call, Response<QuoteResponse> response) {
+                QuoteResponse quoteResponse = response.body();
+                Log.d("Texts", "The response body is:" + response.body());
+                Log.d("Texts", "The response toString() is:"
+                        + quoteResponse.getContents().getQuotes().get(0));
+                Quote quoteOfTheDay = quoteResponse.getContents().getQuotes().get(0);
+                mAddTextView.showQuoteOfTheDay("\""+quoteOfTheDay.getQuote() +"\" - "
+                        + quoteOfTheDay.getAuthor());
+            }
+
+            @Override
+            public void onFailure(Call<QuoteResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
