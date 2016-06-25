@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class QuoteResponse {
 
+    public static final String QUOTES_URL = " http://quotes.rest";
+
     @SerializedName("contents")
     @Expose
     private Contents contents;

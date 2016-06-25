@@ -39,7 +39,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.amicly.acaringtext.texts.TextsFragment.BASE_URL;
+import static com.amicly.acaringtext.data.quotes.QuoteResponse.QUOTES_URL;
 
 /**
  * Created by daz on 2/2/16.
@@ -285,7 +285,7 @@ public class AddTextFragment extends Fragment implements AddTextContract.View {
 
     public void getInspirationalQuote() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(QUOTES_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

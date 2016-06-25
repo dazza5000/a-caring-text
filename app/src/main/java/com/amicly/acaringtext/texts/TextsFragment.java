@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.amicly.acaringtext.data.TextsServiceApiImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static com.amicly.acaringtext.util.DateUtil.getFormattedDateAndTimeFromTimestamp;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -34,7 +36,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class TextsFragment extends Fragment implements TextsContract.View {
 
-    public static final String BASE_URL = " http://quotes.rest";
     private static final int REQUEST_ADD_TEXT = 1;
 
     private TextsContract.UserActionsListener mActionsListener;
@@ -87,7 +88,11 @@ public class TextsFragment extends Fragment implements TextsContract.View {
         View root = inflater.inflate(R.layout.fragment_texts, container, false);
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.texts_list);
         recyclerView.setAdapter(mListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        } else{
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
