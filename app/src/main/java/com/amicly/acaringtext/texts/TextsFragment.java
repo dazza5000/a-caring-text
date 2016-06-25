@@ -34,6 +34,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class TextsFragment extends Fragment implements TextsContract.View {
 
+    public static final String BASE_URL = " http://quotes.rest";
     private static final int REQUEST_ADD_TEXT = 1;
 
     private TextsContract.UserActionsListener mActionsListener;

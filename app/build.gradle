@@ -106,6 +106,10 @@ dependencies {
 
     // Add Android Job from Evernote
     compile 'com.evernote:android-job:1.0.6'
+
+    // Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 }
 
 apply from: 'qa-check.gradle'
