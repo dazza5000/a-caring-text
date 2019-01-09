@@ -17,7 +17,8 @@ import io.realm.RealmConfiguration;
  * Created by daz on 2/1/16.
  */
 public class ActApplication extends Application {
-    private ApplicationComponent mComponent;
+
+    private ApplicationComponent applicationComponent;
 
     @Override
     public void onCreate() {
@@ -29,13 +30,12 @@ public class ActApplication extends Application {
         // Initialize Evernote Job Creator
         JobManager.create(this).addJobCreator(new TextJobCreator());
 
-        mComponent = DaggerApplicationComponent.builder()
+        applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
     }
 
     public ApplicationComponent getComponent() {
-        return mComponent;
+        return applicationComponent;
     }
-
 }
