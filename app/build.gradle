@@ -16,19 +16,16 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-apply plugin: 'com.neenbedankt.android-apt'
-
 Properties props = new Properties()
 props.load(new FileInputStream(file(project.property("acaringtext.properties"))))
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "com.amicly.acaringtext"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [fabricApiKey:props['fabric']]
@@ -87,10 +84,7 @@ dependencies {
 
     // Dagger 2 and Compiler
     compile 'com.google.dagger:dagger:2.0.1'
-    apt "com.google.dagger:dagger-compiler:2.0.1"
-
-    // Needed for @Generated annotation (missing in Java <= 1.6; therefore, Android)
-    compile 'javax.annotation:jsr250-api:1.0'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.0.1"
 
     testCompile 'org.mockito:mockito-core:1.10.19'
 
@@ -111,5 +105,3 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 }
-
-apply from: 'qa-check.gradle'
